@@ -106,7 +106,7 @@ task-manager/
 ## 👨‍💻 Author
 
 **Subhi Hamed**
-📧 [subhihamed@gmail.com](mailto:subhihamed@gmail.com)
+📧 [subhihamed88@gmail.com](mailto:subhihamed88@gmail.com)
 
 ---
 
