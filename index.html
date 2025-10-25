@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- Externals-->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Varela+Round" />
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+
+    <!--//-->
+    <style>
+      body {
+        background-color: rgb(30, 0, 77);
+        font-family: "Varela Round", sans-serif;
+      }
+      .task {
+        display: flex;
+        background-color: rgb(255, 255, 255);
+        padding: 4px;
+        border-bottom: solid black 1px;
+      }
+      .done {
+        background-color: rgb(73, 249, 149);
+      }
+      .task:hover {
+        box-shadow: 0px 3px 15px rgba(97, 97, 97, 0.843);
+      }
+
+      .tasks-table {
+        background-color: rgb(239, 239, 239);
+        width: 60%;
+        /* height: 500px;*/
+        margin-top: 130px;
+      }
+      button {
+        border: none;
+        font-size: 20px;
+        box-shadow: 0px 3px 5px rgb(168, 168, 168 0.38);
+      }
+      .circular {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        line-height: 0px;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="direction: rtl">
+      <!-- Center container-->
+      <div style="display: flex; justify-content: center; align-items: center">
+        <!-- Table task Div-->
+        <div class="tasks-table">
+          <!--Header-->
+          <div
+            style="
+              width: 100%;
+              text-align: center;
+              background: purple;
+              color: white;
+              padding-top: 10px;
+              padding-bottom: 8px;
+            ">
+            <h1 style="display: inline">משימות</h1>
+            <button
+              id="add-btn"
+              class="circular"
+              style="float: right; background: white; margin-right: 10px">
+              <span class="material-symbols-outlined"> add </span>
+            </button>
+          </div>
+          <!-- Tasks-->
+          <div id="tasks" style="padding: 20px">
+            <!--task-->
+            <div class="task">
+              <!--Task info-->
+              <div style="width: 70%">
+                <h2>קריאה</h2>
+                <div>
+                  <span class="material-symbols-outlined">
+                    calendar_today
+                  </span>
+                  <span>10/10/2030</span>
+                </div>
+              </div>
+              <!--// task info-->
+
+              <!--taskAction-->
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  width: 20%;
+                  color: white;
+                ">
+                <button
+                  class="circular"
+                  style="background-color: brown; color: white">
+                  <span class="material-symbols-outlined"> delete </span>
+                </button>
+                <button
+                  class="circular"
+                  style="background-color: rgb(42, 165, 97); color: white">
+                  <span class="material-symbols-outlined"> check </span>
+                </button>
+                <button
+                  class="circular"
+                  style="background-color: rgb(83, 42, 165); color: white">
+                  <span class="material-symbols-outlined"> edit </span>
+                </button>
+              </div>
+              <!--//taskAction-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <center style="padding: 20px; color: aliceblue">
+      CREAT By Subhi Hamed subhihamed@gamail.com
+    </center>
+  </body>
+  <script>
+    let tasks = [
+      {
+        title: "קריאה",
+        date: "15/10/2030",
+        isDone: false,
+      },
+      {
+        title: "פרויקט גמר",
+        date: "15/10/2030",
+        isDone: false,
+      },
+      {
+        title: " הכננת פרויקט",
+        date: "15/10/2030",
+        isDone: true,
+      },
+    ];
+
+    let rettasks = JSON.parse(localStorage.getItem("tasks"));
+    if (rettasks == null) {
+      tasks = [];
+    } else {
+      tasks = rettasks;
+    }
+
+    function fillTasksonThePage() {
+      document.getElementById("tasks").innerHTML = "";
+      let index = 0;
+      for (task of tasks) {
+        let content = `                    
+            <div class="task ${task.isDone ? "done" : ""}">
+                            <!--Task info-->
+                            <div style="width: 70%;">
+                                <h2> ${task.title}</h2>
+                                <div>
+                                    <span class="material-symbols-outlined">
+                                        calendar_today
+                                    </span>
+                                    <span>${task.date}</span>
+                                </div>
+                            </div>
+                            <!--// task info-->
+
+                            <!--taskAction-->
+                            <div style="display: flex;justify-content: space-between;align-items: center;width: 20%;color: white;" >
+                                <button onclick="deleteTask(${index})" class="circular" style="background-color: brown; color: white;">
+                                    <span class="material-symbols-outlined">
+                                        delete
+                                    </span>
+                                </button>
+
+                                ${
+                                  task.isDone
+                                    ? `
+                                   <button onclick="toggleTaskCompletion(${index})" class="circular" style="background-color: rgb(118, 0, 101);color: white;">
+                                    <span class="material-symbols-outlined">
+                                        cancel
+                                    </span>
+                                    </button>
+
+                                
+                                `
+                                    : `
+                                    <button onclick="toggleTaskCompletion(${index})" class="circular" style="background-color: rgb(42, 165, 97);color: white;">
+                                    <span class="material-symbols-outlined">
+                                        check
+                                    </span>
+                                    </button>
+
+                                `
+                                }
+
+                                <button onclick="editTask(${index})" class="circular" style="background-color: rgb(83, 42, 165);color: white;">
+                                    <span class="material-symbols-outlined">
+                                        edit
+                                    </span>
+                                </button>
+
+            
+                            </div>
+                            <!--//taskAction-->
+
+                            </div>
+            `;
+        document.getElementById("tasks").innerHTML += content;
+        index++;
+      }
+    }
+    fillTasksonThePage();
+
+    document.getElementById("add-btn").addEventListener("click", function () {
+      let taskName = prompt("הכנס כותרת משימה");
+      while (taskName == null || taskName.trim() == "") {
+        taskName = prompt("הכנס כותרת משימה");
+      }
+
+      let now = new Date();
+      let date =
+        now.getDate() + "/" + (now.getMonth() + 1) + "/" + now.getFullYear();
+      let taskObj = {
+        title: taskName,
+        date: date,
+        isDone: false,
+      };
+      tasks.push(taskObj);
+      storeTasks();
+      fillTasksonThePage();
+    });
+
+    function deleteTask(index) {
+      let task = tasks[index];
+      let isConfirmed = confirm(
+        `האם בטוח שברצונך למחוק את המשימה "${task.title}"?`
+      );
+      if (isConfirmed) {
+        tasks.splice(index, 1);
+        storeTasks();
+        fillTasksonThePage();
+      }
+    }
+
+    function editTask(index) {
+      let task = tasks[index];
+      let newTaskName = prompt("עדכן שם משימה", task.title);
+      task.title = newTaskName;
+      storeTasks();
+      fillTasksonThePage();
+    }
+
+    function toggleTaskCompletion(index) {
+      let task = tasks[index];
+      task.isDone = !task.isDone;
+      storeTasks();
+      fillTasksonThePage();
+    }
+
+    //=====Storage function====
+    function storeTasks() {
+      let tasksString = JSON.stringify(tasks);
+      localStorage.setItem("tasks", tasksString);
+    }
+  </script>
+</html>
