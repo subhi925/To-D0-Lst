@@ -112,6 +112,4 @@ task-manager/
 
 This project is open source and available under the [MIT License](LICENSE).
 
----
 
-Would you like me to also create a **`LICENSE` file (MIT)** to include with your README?
